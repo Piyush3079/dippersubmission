@@ -39,6 +39,15 @@
 			font-family: sans-serif;
 			font-size: 16px;
 		}
+		#submit{
+			margin-top: 10px;
+			font-family: sans-serif;
+			font-size: 16px;
+		}
+		#submit input{
+			font-family: sans-serif;
+			font-size: 16px;
+		}
 	</style>
 </head>
 <body style="padding:0px;margin: 0px;">
@@ -75,18 +84,15 @@
 			  <option value="Pune, Maharashtra, India">Pune, Maharashtra</option>
 			</select>
 		</div>
+		<div id="submit">
+			<input type="submit" value="Submit">
+		</div>
 	</div>
 
 	<script>
-		function myMap() {
-			var mapProp= {
-				center:new google.maps.LatLng(20.5937,78.9629),
-				zoom:5,
-			};
-			var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-		}
+		
 	</script>
-
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHclBO7Pbc54tyrOBpB0jmL3EsImnLmQo&callback=myMap"></script>
+	<script type="text/javascript" src="js/script.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_J3eFsbMt4tb7ResExEbP90qrT-uKe9k&callback=myMap&libraries=geometry"></script>
 </body>
 </html>
