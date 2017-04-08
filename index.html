@@ -1,2 +1,92 @@
+<!DOCTYPE html>
 <html>
+<head>
+	<style>
+		#details_panel{
+			width: 32%;
+			float:right;
+			margin-top: 50px;
+			margin-left: 10px;
+			margin-right: 20px;
+			text-align: left;
+		}
+		#googleMap{
+			float: left;
+		}
+		#start_select{
+			width:60%;
+			height: 25px;
+			margin-top: 10px;
+			font-family: sans-serif;
+			font-size: 16px;
+		}
+		#pass_through_select{
+			width: 60%;
+			margin-top: 10px;
+			font-family: sans-serif;
+			font-size: 16px;
+		}
+		#pass_through{
+			margin-top: 20px;
+		}
+		#end_point{
+			margin-top: 20px;
+		}
+		#end_point_select{
+			margin-top: 10px;
+			width: 60%;
+			height: 25px;
+			font-family: sans-serif;
+			font-size: 16px;
+		}
+	</style>
+</head>
+<body style="padding:0px;margin: 0px;">
+	<div id="googleMap" style="width:65%;height:100vh;margin:0px;padding:0px;"></div>
+	<div id="details_panel">
+		<div id="start_point">
+			<b>Select Start Point</b><br>
+			<select id="start_select">
+			  <option value="Ludhiana, Punjab, India">Ludhiana</option>
+			  <option value="Srinagar">Srinagar</option>
+			  <option value="Patna, Bihar, India">Patna</option>
+			  <option value="Madurai, Tamil Nadu, India">Madurai</option>
+			</select>
+		</div>
+		<div id="pass_through">
+			<b>Select Passthrough location: </b><br>
+			<i>(Press ctrl+click to select multiple cities)</i>
+			<select multiple id="pass_through_select">
+			  <option value="Allahabad, Uttar Pradesh, India">Allahabad, UP</option>
+			  <option value="Chhattisgarh, India">Chhattisgarh</option>
+			  <option value="Shimla, Himachal Pradesh, India">Shimla</option>
+			  <option value="Surat, Gujarat, India">Surat</option>
+			  <option value="Visakhapatnam, Andhra Pradesh, India">Visakhapatnam</option>
+			  <option value="Nagpur, Maharashtra, India">Nagpur</option>
+			  <option value="Kolkata, West Bengal, India">Kolkata</option>
+			</select>
+		</div>
+		<div id="end_point">
+			<b>Select end Point: </b><br>
+			<select id="end_point_select">
+			  <option value="Bangalore, Karnataka">Bangalore, Karnataka</option>
+			  <option value="New Delhi, Delhi, India">New Delhi, Delhi</option>
+			  <option value="Mumbai, Maharashtra, India">Mumbai, Maharashtra</option>
+			  <option value="Pune, Maharashtra, India">Pune, Maharashtra</option>
+			</select>
+		</div>
+	</div>
+
+	<script>
+		function myMap() {
+			var mapProp= {
+				center:new google.maps.LatLng(20.5937,78.9629),
+				zoom:5,
+			};
+			var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+		}
+	</script>
+
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHclBO7Pbc54tyrOBpB0jmL3EsImnLmQo&callback=myMap"></script>
+</body>
 </html>
