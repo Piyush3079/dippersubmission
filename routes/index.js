@@ -9,26 +9,26 @@ env.config();
 var passport = require('passport');
 
 // Define routes.
-app.get('/',
+router.get('/',
   function(req, res) {
     res.render('home', { user: req.user });
   });
 
-app.get('/login',
+router.get('/login',
   function(req, res){
     res.render('login');
   });
 
-app.get('/login/twitter',
+router.get('/login/twitter',
   passport.authenticate('twitter'));
 
-app.get('/api/callback', 
+router.get('/api/callback', 
   passport.authenticate('twitter', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
 
-app.get('/profile',
+router.get('/profile',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
     res.render('profile', { user: req.user });
