@@ -29,4 +29,16 @@ router.get('/', function(req, res, next) {
 
 router.get('/auth/twitter', passport.authenticate('twitter'));
 
+router.get('/api/callback',
+  passport.authenticate('twitter', {
+      successRedirect : '/profile',
+      failureRedirect : '/'
+}));
+
+router.get('/profile', function(req, res) {
+  res.render('profile.ejs', {
+      user : req.user // get the user out of session and pass to template
+  });
+});
+
 module.exports = router;
