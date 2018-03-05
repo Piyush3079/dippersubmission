@@ -1,0 +1,1 @@
+CREATE TABLE `test2`.`user` ( `id` INT(6) NOT NULL AUTO_INCREMENT , `t_id` INT(10) NOT NULL , `token` VARCHAR(255) NOT NULL , `token_secret` VARCHAR(255) NOT NULL , `screen_name` VARCHAR(255) NOT NULL , `created_at` TIMESTAMP NOT NULL , PRIMARY KEY (`id`), INDEX `twitte_id` (`t_id`)) ENGINE = InnoDB;
