@@ -1,9 +1,42 @@
-<p>
-    ID: <%= user.id %><br/>
-    Username: <%= user.username %><br/>
-    Name: <%= user.displayName %><br/>
-    <% if (user.emails) { %>
-    Email: <%= user.emails[0].value %><br/>
-    <% } %>
-    </p>
+
+<!doctype html>
+<html>
+<head>
+    <title>Twitter Api Handle</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body        { padding-top:80px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="col-md-6">
+            <p>
+                    ID: <%= user.id %><br/>
+                    Username: <%= user.username %><br/>
+                    Name: <%= user.displayName %><br/>
+                    <% if (user.emails) { %>
+                    Email: <%= user.emails[0].value %><br/>
+                    
+                    <% } %>
+                    
+                    Followers: <%= user._json.followers_count %><br />
+                    Followed By: <%= user._json.friends_count %><br />
+                    Photo: <img src=<%= user.photos[0].value %> ><br/>
+                </p>
+    </div>
+    <div class="col-md-6">
+        <h4><b>Search for a tweet on twitter api</b></h4>
+        <form action="/api/query" method="post" class="">
+            <div class="form-group">
+                <label for="email">Quey string to search for:</label>
+                <input type="email" class="form-control" id="email">
+                </div>
+            <button type="submit" class="btn btn-default">Search</button>
+        </form>
+    </div>
     
+</div>
+</body>
+</html>   
