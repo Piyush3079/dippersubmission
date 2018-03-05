@@ -8,37 +8,31 @@ env.config();
 
 var passport = require('passport');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  var client = new Twitter({
-    consumer_key: process.env.CONSUMER_KEY,
-    consumer_secret: process.env.CONSUMER_SECRET,
-    access_token_key: process.env.ACCESS_TOKEN_KEY,
-    access_token_secret: process.env.ACCESS_TOKEN_SECRET
-
+// Define routes.
+app.get('/',
+  function(req, res) {
+    res.render('home', { user: req.user });
   });
-  client.get('statuses/user_timeline', {screen_name: 'nodejs'}, function(error, tweets, response) {
-    if (error) {
-      console.log(error);
-    }else{
-      console.log(tweets);
-    }
+
+app.get('/login',
+  function(req, res){
+    res.render('login');
   });
-  res.render('index', { title: 'Express' });
-});
 
-router.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/login/twitter',
+  passport.authenticate('twitter'));
 
-router.get('/api/callback',
-  passport.authenticate('twitter', {
-      successRedirect : '/profile',
-      failureRedirect : '/'
-}));
-
-router.get('/profile', function(req, res) {
-  res.render('profile.ejs', {
-      user : req.user // get the user out of session and pass to template
+app.get('/api/callback', 
+  passport.authenticate('twitter', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
   });
-});
+
+app.get('/profile',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    res.render('profile', { user: req.user });
+  });
+
 
 module.exports = router;
