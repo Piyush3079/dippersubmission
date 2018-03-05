@@ -14,11 +14,6 @@ router.get('/',
     res.render('home', { user: req.user });
   });
 
-router.get('/login',
-  function(req, res){
-    res.render('login');
-  });
-
 router.get('/login/twitter',
   passport.authenticate('twitter'));
 
@@ -33,6 +28,5 @@ router.get('/profile',
   function(req, res){
     res.render('profile', { user: req.user });
   });
-
 
 module.exports = router;
