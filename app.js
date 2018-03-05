@@ -18,7 +18,7 @@ app.use(session({
   secret: 'node with twitter',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true, maxAge: 30*24*60*60 }
+  cookie: { secure: false, maxAge: 30*24*60*60 }
 }));
 
 app.use(passport.initialize());
