@@ -17,7 +17,7 @@ app.use(session({
   secret: 'node with twitter',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false, maxAge: 30*24*60*60 }
+  cookie: { secure: false, maxAge: 30*24*60*60*1000 }
 }));
 
 require('./routes/config')(passport);
