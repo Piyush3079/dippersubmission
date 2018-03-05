@@ -4,11 +4,26 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session')
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+var passport = require('passport');
+
 var app = express();
+
+app.set('trust proxy', 1)
+app.use(session({
+  secret: 'node with twitter',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true, maxAge: 30*24*60*60 }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+require('./routes/config')(passport);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
