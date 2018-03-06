@@ -8,6 +8,8 @@ env.config();
 
 var passport = require('passport');
 
+var getTweets = require('../controller/get_tweets');
+
 // Define routes.
 router.get('/',
   function(req, res) {
@@ -18,7 +20,7 @@ router.get('/login/twitter',
   passport.authenticate('twitter'));
 
 router.get('/api/callback', 
-  passport.authenticate('twitter', { failureRedirect: '/login' }),
+  passport.authenticate('twitter', { failureRedirect: '/' }),
   function(req, res) {
     res.redirect('/');
   });
@@ -28,5 +30,7 @@ router.get('/profile',
   function(req, res){
     res.render('profile', { user: req.user });
   });
+
+router.post('/api/query', getTweets.get_tweets);
 
 module.exports = router;
