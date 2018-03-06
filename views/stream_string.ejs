@@ -28,7 +28,7 @@
                 e.preventDefault();
                 var number = document.getElementById('search').value;
                 console.log(number);
-                window.location.href = '/stream/<%= string %>/'+Number(number);
+                window.location.href = '/<%= url %>/<%= string %>/'+Number(number);
             })
         } );
     </script>
@@ -38,7 +38,7 @@
 </head>
     <body>
         <div class="container">
-            <p>Showing 100 entries starting from <%= id+1 %> out of <%= count[0].count %> tweets having <%= parseInt(count[0].count/100) +1 %> pages related to string `<%= string %>`.</p>
+            <p>Showing 100 entries starting from <%= id+1 %> out of <%= count[0].count %> tweets having <%= parseInt(count[0].count/100) +1 %> page(s) <% if(string){%> related to string `<%= string %>`.<% } %></p>
             <span>Go To Page:</span>
             <form action="/stream/<%= string %>/" method="post" id="myForm">
                 <input type="number" name="string" id="search">
