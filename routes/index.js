@@ -31,7 +31,9 @@ router.get('/profile',
     res.render('profile', { user: req.user });
   });
 
-router.post('/api/query', getTweets.get_tweets);
+router.post('/api/query/stream', getTweets.get_tweets_stream);
+
+router.post('/api/query/search', getTweets.get_tweets_search);
 
 router.get('/streams/past', getTweets.past_tweets);
 
