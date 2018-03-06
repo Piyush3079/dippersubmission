@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <title>Twitter Api Handle</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body        { padding-top:80px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h3>Information gathered from twitter database for the user.</h3>
+    <p>Name: <%= user[0].name %></p>
+    <p>Twitter Id: <%= user[0].twu_id %></p>
+    <p>Database Id: <%= user[0].id %></p>
+    <p>Username: <%= user[0].screen_name %></p>
+    <p>URL: <%= user[0].url %></p>
+    <p>Followers: <%= user[0].followers_count %></p>
+    <p>Followed By: <%= user[0].friends_count %></p>
+    <p>Status Count: <%= user[0].status_count %></p>
+    <p>Created At: <%= user[0].created_at %></p>
+    <p>Twitter Link: <a href="https://twitter.com/<%= user[0].screen_name %>" ><%= user[0].name %></a></p>
+</div>
+</body>
+</html>   
