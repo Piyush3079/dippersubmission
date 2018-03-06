@@ -35,6 +35,8 @@ router.post('/api/query', getTweets.get_tweets);
 
 router.get('/streams/past', getTweets.past_tweets);
 
+router.get('/streams/all/:init', getTweets.all_tweets);
+
 router.get('/stream/:string/:init', getTweets.tweet_string);
 
 router.get('/user/:id/:user_type', getTweets.tweet_user);
