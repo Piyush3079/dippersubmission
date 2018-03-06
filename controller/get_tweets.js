@@ -145,10 +145,10 @@ exports.get_all_users = function(req, res){
         var table = 'tweet_user';
     }
     if(temp == 'retweets'){
-        var table = 'rtweet_user';
+        var table = 'rtweeted_user';
     }
     var init = Number(req.params.init)*100;
-    var query = `SELECT * FROM ${table} WHERE id>${init}`;
+    var query = `SELECT * FROM ${table} WHERE id>${init} LIMIT 100`;
     conn.query(query, function(err, result0){
         if(err){
             console.log(err);
