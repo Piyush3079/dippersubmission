@@ -39,4 +39,6 @@ router.get('/stream/:string/:init', getTweets.tweet_string);
 
 router.get('/user/:id/:user_type', getTweets.tweet_user);
 
+router.get('/users/:table/:init', getTweets.get_all_users);
+
 module.exports = router;
