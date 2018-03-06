@@ -1,0 +1,48 @@
+
+<!doctype html>
+<html>
+<head>
+    <title>Twitter Api Handle</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"> <!-- load fontawesome -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#myTable').DataTable();
+        });
+    </script>
+    <style>
+        body        { padding-top:80px; }
+    </style>
+</head>
+    <body>
+        <div class="container">
+            <table id="myTable" class="table table-striped table-bordered" style="table-layout: fixed;word-wrap: break-word;">
+                <thead>
+                    <% console.log(stream) %>
+                     <tr>
+                        <td class="center-align">Id</td>
+                        <td class="center-align">User Id</td>
+                        <td class="center-align">User Name/Screen Name</td>
+                        <td class="center-align">String</td>
+                        <td class="center-align">Timestamp</td>
+                    </tr>
+                </thead>
+                <% stream.forEach(function(stream) { %>
+                <tr>
+                    <td><%= stream.id %></td>
+                    <td><%= stream.user_id %></td>
+                    <td><a href="https://twitter.com/<%= stream.screen_name %>"><%= stream.screen_name %></a></td>
+                    <td><a href="/stream/<%= stream.string %>/0 %>"><%= stream.string %></a></td>
+                    <td><%= stream.created_at %></td>
+                </tr>
+                <% }); %> 
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>   
