@@ -112,7 +112,7 @@ exports.get_tweets_search = function(req, res){
                         }
                     }
                 });
-                client.get('search/tweets', {q: string, result_type: 'popular'}, function(error, tweets, response) {
+                client.get('search/tweets', {q: string}, function(error, tweets, response) {
                     if(tweets.statuses.length > 0){
                         tweets.statuses.forEach(function(t){
                             var query = `INSERT INTO searched_tweets (tw_id, text, id_user, retweet_count, favourite_count, string) VALUES (${conn.escape(t.id)}, ${conn.escape(t.text)}, ${conn.escape(t.user.id)}, ${conn.escape(t.retweet_count)}, ${t.favorite_count}, ${conn.escape(string)})`;
@@ -152,7 +152,7 @@ exports.past_tweets = function(req, res){
         if(err){
             console.log(err);
         }else{
-            res.render('past_streams', {stream: result});
+            res.render('past_streams', {stream: result, type: 0});
         }
     });
 }
@@ -163,7 +163,7 @@ exports.past_tweets_searches = function(req, res){
         if(err){
             console.log(err);
         }else{
-            res.render('past_streams', {stream: result});
+            res.render('past_streams', {stream: result, type: 1});
         }
     });
 }
@@ -182,6 +182,25 @@ exports.tweet_string = function(req, res){
                     console.log(err);
                 }else{
                     res.render('stream_string', {stream: result0, count: result, id: init, string: req.params.string, url: 'stream'});
+                }
+            })
+        }
+    })
+}
+exports.tweet_string_search = function(req, res){
+    var string = conn.escape(req.params.string);
+    var init = Number(req.params.init)*100;
+    var query = `SELECT * FROM searched_tweets WHERE string=${string} AND id>${init} LIMIT 100`;
+    console.log(query);
+    conn.query(query, function(err, result0){
+        if(err){
+            console.log(err);
+        }else{
+            conn.query(`SELECT COUNT(*) AS count FROM searched_tweets WHERE string=${string}`, function(err, result){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.render('search_string', {stream: result0, count: result, id: init, string: req.params.string, url: 'stream'});
                 }
             })
         }
