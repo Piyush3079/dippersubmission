@@ -61,8 +61,8 @@
                     <td><%= stream.id %></td>
                     <td><%= stream.tw_id %></td>
                     <td><%= stream.text %></td>
-                    <td><%= stream.id_user %></td>
-                    <td><%= stream.retweeted %></td>
+                    <td><a href="/user/<%= stream.id_user %>/0"><%= stream.id_user %></a></td>
+                    <td><a href="/user/<%=  stream.retweeted %>/1"><%= stream.retweeted %></a></td>
                     <td><%= stream.timestamp %></td>
                     <td><%= stream.string %></td>
                 </tr>
