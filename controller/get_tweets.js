@@ -98,13 +98,20 @@ exports.past_tweets = function(req, res){
 
 exports.tweet_string = function(req, res){
     var string = conn.escape(req.params.string);
-    var init = req.params.init;
-    var query = `SELECT * FROM tweets WHERE string=${string} LIMIT 100`;
-    conn.query(query, function(err, result){
+    var init = Number(req.params.init);
+    var query = `SELECT * FROM tweets WHERE string=${string} AND id>${init} LIMIT 100`;
+    console.log(query);
+    conn.query(query, function(err, result0){
         if(err){
             console.log(err);
         }else{
-            res.render('stream_string', {stream: result});
+            conn.query(`SELECT COUNT(*) AS count FROM tweets WHERE string=${string}`, function(err, result){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.render('stream_string', {stream: result0, count: result, id: init});
+                }
+            })
         }
     })
 }
