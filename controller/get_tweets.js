@@ -109,7 +109,7 @@ exports.tweet_string = function(req, res){
                 if(err){
                     console.log(err);
                 }else{
-                    res.render('stream_string', {stream: result0, count: result, id: init});
+                    res.render('stream_string', {stream: result0, count: result, id: init, string: req.params.string});
                 }
             })
         }
