@@ -30,8 +30,9 @@
         <h4><b>Search for a tweet on twitter api</b></h4>
         <form action="/api/query" method="post" class="">
             <div class="form-group">
-                <label for="email">Quey string to search for:</label>
-                <input type="email" class="form-control" id="email">
+                <label for="text">Quey string to search for:</label>
+                <input type="text" name="string" class="form-control" id="search">
+                <input type="hidden" class="form-control" id="id" name="id" value=<%= user.id%>>
                 </div>
             <button type="submit" class="btn btn-default">Search</button>
         </form>
