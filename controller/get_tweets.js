@@ -115,3 +115,23 @@ exports.tweet_string = function(req, res){
         }
     })
 }
+
+exports.tweet_user = function(req, res){
+    var id = req.params.id;
+    var user_type = req.params.user_type;
+    if(user_type == 0){
+        var user_id = 'twu_id';
+        var table = 'tweet_user'
+    }else{
+        var user_id = 'rtu_id';
+        var table = 'rtweeted_user';
+    }
+    var query = `SELECT * FROM ${table} WHERE ${user_id}=${id}`;
+    conn.query(query, function(err, result){
+        if(err){
+            console.log(err);
+        }else{
+            res.render('show_user', {user: result});
+        }
+    })
+}
