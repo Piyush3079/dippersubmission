@@ -19,7 +19,7 @@ exports.get_tweets_stream = function(req, res){
                     access_token_key: result[0].token,
                     access_token_secret: result[0].token_secret
                 });
-                var query_string = `INSERT INTO query (user_id, string) VALUES (${id}, ${conn.escape(string)})`;
+                var query_string = `INSERT INTO query (user_id, string, type) VALUES (${id}, ${conn.escape(string)}, 0)`;
                         conn.query(query_string, function(err, result){
                             if(err){
                                 console.log(err);
@@ -100,7 +100,7 @@ exports.get_tweets_search = function(req, res){
                     access_token_key: result[0].token,
                     access_token_secret: result[0].token_secret
                 });
-                var query_string = `INSERT INTO query (user_id, string) VALUES (${id}, ${conn.escape(string)})`;
+                var query_string = `INSERT INTO query (user_id, string, type) VALUES (${id}, ${conn.escape(string)}, 1)`;
                         conn.query(query_string, function(err, result){
                             if(err){
                                 console.log(err);
@@ -113,7 +113,33 @@ exports.get_tweets_search = function(req, res){
                             }
                         });
                         client.get('search/tweets', {q: string, result_type: 'popular'}, function(error, tweets, response) {
-                            console.log(tweets);
+                            if(tweets.statuses.length > 0){
+                                tweets.statuses.forEach(function(t){
+                                    var query = `INSERT INTO tweets (tw_id, text, id_user, retweet_count, favourite_count, string) VALUES (${conn.escape(t.id)}, ${conn.escape(t.text)}, ${conn.escape(t.user.id)}, ${conn.escape(t.retweet_count)}, ${t.	favourite_count}, ${conn.escape(string)})`;
+                                    conn.query(query, function(err, result){
+                                        if(err){
+                                            console.log(err);
+                                        }else{
+                                            if(result.affectedRows == 1){
+                                                var query1 = `INSERT INTO tweet_user (twu_id, name, screen_name, url, followers_count, friends_count, status_count) VALUES (${conn.escape(t.user.id)}, ${conn.escape(t.user.name)}, ${conn.escape(t.user.screen_name)}, ${conn.escape(t.user.url)}, ${conn.escape(t.user.followers_count)}, ${conn.escape(t.user.friends_count)}, ${conn.escape(t.user.status_count)})`;
+                                                conn.query(query1, function(err, result){
+                                                    if(err){
+                                                        console.log(err);
+                                                    }else{
+                                                        if(result.affectedRows == 1){
+                                                            console.log('done');
+                                                        }else{
+                                                            console.log('error in tweet_user');
+                                                        }
+                                                    }
+                                                });
+                                            }else{
+                                                console.log('error in tweet');
+                                            }
+                                        }
+                                    }); 
+                                });
+                            }
                          });
             }
         }
@@ -121,7 +147,18 @@ exports.get_tweets_search = function(req, res){
 }
 
 exports.past_tweets = function(req, res){
-    var query = `SELECT query.id, query.user_id, query.string, query.created_at, user.screen_name FROM query, user WHERE query.user_id=user.t_id`;
+    var query = `SELECT query.id, query.user_id, query.string, query.created_at, user.screen_name FROM query, user WHERE query.user_id=user.t_id AND type=0`;
+    conn.query(query, function(err, result){
+        if(err){
+            console.log(err);
+        }else{
+            res.render('past_streams', {stream: result});
+        }
+    });
+}
+
+exports.past_tweets_searches = function(req, res){
+    var query = `SELECT query.id, query.user_id, query.string, query.created_at, user.screen_name FROM query, user WHERE query.user_id=user.t_id AND type=1`;
     conn.query(query, function(err, result){
         if(err){
             console.log(err);
