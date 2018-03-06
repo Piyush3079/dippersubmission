@@ -37,4 +37,6 @@ router.get('/streams/past', getTweets.past_tweets);
 
 router.get('/stream/:string/:init', getTweets.tweet_string);
 
+router.get('/user/:id/:user_type', getTweets.tweet_user);
+
 module.exports = router;
