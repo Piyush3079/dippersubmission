@@ -29,7 +29,7 @@ exports.get_tweets = function(req, res){
                                 console.log(err);
                             }else{
                                 if(result.affectedRows == 1){
-                                    var query = `INSERT INTO tweets (tw_id, text, id_user, timestamp, retweeted) VALUES (${conn.escape(tweet.id)}, ${conn.escape(tweet.text)}, ${conn.escape(tweet.user.id)}, ${conn.escape(tweet.timestamp_ms)}, ${retweeted_status})`;
+                                    var query = `INSERT INTO tweets (tw_id, text, id_user, timestamp, retweeted, string) VALUES (${conn.escape(tweet.id)}, ${conn.escape(tweet.text)}, ${conn.escape(tweet.user.id)}, ${conn.escape(tweet.timestamp_ms)}, ${retweeted_status}, ${conn.escape(string)})`;
                                     conn.query(query, function(err, result){
                                         if(err){
                                             console.log(err);
