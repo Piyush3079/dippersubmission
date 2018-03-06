@@ -5,3 +5,5 @@ CREATE TABLE `test2`.`tweets` ( `id` BIGINT(19) NOT NULL AUTO_INCREMENT , `tw_id
 CREATE TABLE `test2`.`tweet_user` ( `id` BIGINT(19) NOT NULL AUTO_INCREMENT , `twu_id` BIGINT(19) NOT NULL UNIQUE , `name` VARCHAR(255) NOT NULL , `screen_name` VARCHAR(255) NOT NULL , `url` VARCHAR(255) NOT NULL , `desciption` VARCHAR(255) NOT NULL , `followers_count` INT(10) NOT NULL , `friends_count` INT(10) NOT NULL , `status_count` INT(10) NOT NULL , `created_at` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
 CREATE TABLE `test2`.`rtweeted_user` ( `id` BIGINT(19) NOT NULL AUTO_INCREMENT , `rtu_id` BIGINT(19) NOT NULL UNIQUE , `name` VARCHAR(255) NOT NULL , `screen_name` VARCHAR(255) NOT NULL , `url` VARCHAR(255) NOT NULL , `description` VARCHAR(255) NOT NULL , `followers_count` INT(10) NOT NULL , `friends_count` INT(10) NOT NULL , `status_count` INT(10) NOT NULL , `created_at` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+CREATE TABLE `test2`.`query` ( `id` INT(6) NOT NULL AUTO_INCREMENT , `user_id` BIGINT(19) NOT NULL , `stirng` TEXT NOT NULL , `created_at` TIMESTAMP NOT NULL , PRIMARY KEY (`id`), FULLTEXT `string_search` (`stirng`)) ENGINE = InnoDB;
