@@ -98,7 +98,7 @@ exports.past_tweets = function(req, res){
 
 exports.tweet_string = function(req, res){
     var string = conn.escape(req.params.string);
-    var init = Number(req.params.init);
+    var init = Number(req.params.init)*100;
     var query = `SELECT * FROM tweets WHERE string=${string} AND id>${init} LIMIT 100`;
     console.log(query);
     conn.query(query, function(err, result0){
