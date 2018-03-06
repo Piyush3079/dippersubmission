@@ -4,7 +4,7 @@ var Twitter = require('twitter');
 
 var conn = require('../routes/conn');
 
-exports.get_tweets = function(req, res){
+exports.get_tweets_stream = function(req, res){
     var string = req.body.string;
     var id = conn.escape(req.body.id);
     var query = `SELECT token, token_secret FROM user WHERE t_id=${id}`;
@@ -80,6 +80,41 @@ exports.get_tweets = function(req, res){
                       console.log(error);
                     });
                 });
+            }
+        }
+    })
+}
+
+exports.get_tweets_search = function(req, res){
+    var string = req.body.string;
+    var id = conn.escape(req.body.id);
+    var query = `SELECT token, token_secret FROM user WHERE t_id=${id}`;
+    conn.query(query, function(err, result){
+        if(err){
+            console.log(err);
+        }else{
+            if(result.length == 1){
+                var client = new Twitter({
+                    consumer_key: process.env.CONSUMER_KEY,
+                    consumer_secret: process.env.CONSUMER_SECRET,
+                    access_token_key: result[0].token,
+                    access_token_secret: result[0].token_secret
+                });
+                var query_string = `INSERT INTO query (user_id, string) VALUES (${id}, ${conn.escape(string)})`;
+                        conn.query(query_string, function(err, result){
+                            if(err){
+                                console.log(err);
+                            }else{
+                                if(result.affectedRows == 1){
+                                    console.log('done');
+                                }else{
+                                    console.log('error in entring string in database');
+                                }
+                            }
+                        });
+                        client.get('search/tweets', {q: string, result_type: 'popular'}, function(error, tweets, response) {
+                            console.log(tweets);
+                         });
             }
         }
     })
