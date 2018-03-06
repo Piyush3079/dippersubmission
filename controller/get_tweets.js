@@ -109,7 +109,7 @@ exports.tweet_string = function(req, res){
                 if(err){
                     console.log(err);
                 }else{
-                    res.render('stream_string', {stream: result0, count: result, id: init, string: req.params.string});
+                    res.render('stream_string', {stream: result0, count: result, id: init, string: req.params.string, url: 'stream'});
                 }
             })
         }
@@ -162,4 +162,23 @@ exports.get_all_users = function(req, res){
             })
         }
     })
+}
+
+exports.all_tweets = function(req, res){
+    var init = Number(req.params.init)*100;
+    var query = `SELECT * FROM tweets WHERE id>${init} LIMIT 100`;
+    conn.query(query, function(err, result0){
+        if(err){
+            console.log(err);
+        }else{
+            conn.query(`SELECT COUNT(*) AS count FROM tweets`, function(err, result){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.render('stream_string', {stream: result0, count: result, id: init, string: 'all', url: 'streams'});
+                }
+            })
+        }
+    })
+    
 }
