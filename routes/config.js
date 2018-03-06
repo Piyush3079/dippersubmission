@@ -21,7 +21,8 @@ module.exports = function(passport) {
                   if(result.length == 1){
                       return cb(null, profile);
                   }else{
-                      conn.query(`INSERT INTO user (t_id, token, token_secret, sreen_name) VALUES (${profile.id}, ${token}, ${tokenSecret}, ${profile.screen_name})`, function(err, result){
+                      console.log(profile);
+                      conn.query(`INSERT INTO user (t_id, token, token_secret, screen_name) VALUES (${conn.escape(profile.id)}, ${conn.escape(token)}, ${conn.escape(tokenSecret)}, ${conn.escape(profile.username)})`, function(err, result){
                           if(err){
                               console.log(err);
                           }else{
