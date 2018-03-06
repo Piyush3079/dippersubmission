@@ -84,3 +84,14 @@ exports.get_tweets = function(req, res){
         }
     })
 }
+
+exports.past_tweets = function(req, res){
+    var query = `SELECT query.id, query.user_id, query.string, query.created_at, user.screen_name FROM query, user WHERE query.user_id=user.t_id`;
+    conn.query(query, function(err, result){
+        if(err){
+            console.log(err);
+        }else{
+            res.render('past_streams', {stream: result});
+        }
+    });
+}
