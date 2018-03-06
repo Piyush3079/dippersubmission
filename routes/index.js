@@ -33,4 +33,6 @@ router.get('/profile',
 
 router.post('/api/query', getTweets.get_tweets);
 
+router.get('/streams/past', getTweets.past_tweets);
+
 module.exports = router;
