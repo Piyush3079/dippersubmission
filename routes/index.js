@@ -35,4 +35,6 @@ router.post('/api/query', getTweets.get_tweets);
 
 router.get('/streams/past', getTweets.past_tweets);
 
+router.get('/stream/:string/:init', getTweets.tweet_string);
+
 module.exports = router;
