@@ -9,10 +9,28 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
     <script>
-        $(document).ready(function(){
-            $('#myTable').DataTable();
-        });
+        $(document).ready(function() {
+            $('#myTable').DataTable( {
+                dom: 'Bfrtip',
+                buttons: [
+                    'excelHtml5',
+                    'csvHtml5',
+                ]
+            } );
+            $('#myForm').submit(function(e){
+                e.preventDefault();
+                var number = document.getElementById('search').value;
+                console.log(number);
+                window.location.href = '/stream/<%= string %>/'+Number(number);
+            })
+        } );
     </script>
     <style>
         body        { padding-top:80px; }
@@ -20,7 +38,12 @@
 </head>
     <body>
         <div class="container">
-            <p>Showing 100 entries starting from <%= id %> out of <%= count[0].count %> tweets relates to string `<%= string %>`.</p>
+            <p>Showing 100 entries starting from <%= id+1 %> out of <%= count[0].count %> tweets having <%= parseInt(count[0].count/100) +1 %> pages related to string `<%= string %>`.</p>
+            <span>Go To Page:</span>
+            <form action="/stream/<%= string %>/" method="post" id="myForm">
+                <input type="number" name="string" id="search">
+                <input type="submit" class="btn btn-default" value="Submit">
+            </form>
             <table id="myTable" class="table table-striped table-bordered" style="table-layout: fixed;word-wrap: break-word;">
                 <thead>
                      <tr>
