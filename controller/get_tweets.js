@@ -19,60 +19,61 @@ exports.get_tweets = function(req, res){
                     access_token_key: result[0].token,
                     access_token_secret: result[0].token_secret
                 });
-                client.stream('statuses/filter', {track: string},  function(stream) {
-                    stream.on('data', function(tweet) {
-                        var retweeted_status = tweet.retweeted_status != false ? conn.escape(tweet.retweeted_status ? tweet.retweeted_status.id ? tweet.retweeted_status.id : 0 :0) : 0 ;
-
-                        var query_string = `INSERT INTO query (user_id, string) VALUES (${id}, ${conn.escape(string)})`;
+                var query_string = `INSERT INTO query (user_id, string) VALUES (${id}, ${conn.escape(string)})`;
                         conn.query(query_string, function(err, result){
                             if(err){
                                 console.log(err);
                             }else{
                                 if(result.affectedRows == 1){
-                                    var query = `INSERT INTO tweets (tw_id, text, id_user, timestamp, retweeted, string) VALUES (${conn.escape(tweet.id)}, ${conn.escape(tweet.text)}, ${conn.escape(tweet.user.id)}, ${conn.escape(tweet.timestamp_ms)}, ${retweeted_status}, ${conn.escape(string)})`;
-                                    conn.query(query, function(err, result){
-                                        if(err){
-                                            console.log(err);
-                                        }else{
-                                            if(result.affectedRows == 1){
-                                                var query1 = `INSERT INTO tweet_user (twu_id, name, screen_name, url, followers_count, friends_count, status_count) VALUES (${conn.escape(tweet.user.id)}, ${conn.escape(tweet.user.name)}, ${conn.escape(tweet.user.screen_name)}, ${conn.escape(tweet.user.url)}, ${conn.escape(tweet.user.followers_count)}, ${conn.escape(tweet.user.friends_count)}, ${conn.escape(tweet.user.status_count)})`;
-                                                conn.query(query1, function(err, result){
-                                                    if(err){
-                                                        console.log(err);
-                                                    }else{
-                                                        if(result.affectedRows == 1){
-                                                            console.log('done');
-                                                        }else{
-                                                            console.log('error in tweet_user');
-                                                        }
-                                                    }
-                                                });
-                                                if(tweet.retweeted_status){
-                                                    if(tweet.retweeted_status.user){
-                                                        var query2 = `INSERT INTO rtweeted_user (rtu_id, name, screen_name, url, followers_count, friends_count, status_count) VALUES (${conn.escape(tweet.retweeted_status.user.id)}, ${conn.escape(tweet.retweeted_status.user.name)}, ${conn.escape(tweet.retweeted_status.user.screen_name)}, ${conn.escape(tweet.retweeted_status.user.url)}, ${conn.escape(tweet.retweeted_status.user.followers_count)}, ${conn.escape(tweet.retweeted_status.user.friends_count)}, ${conn.escape(tweet.retweeted_status.user.status_count)})`;
-                                                        conn.query(query2, function(err, result){
-                                                            if(err){
-                                                                console.log(err);
-                                                            }else{
-                                                                if(result.affectedRows == 1){
-                                                                    console.log('done');
-                                                                }else{
-                                                                    console.log('Error in retweet user');
-                                                                }
-                                                            }
-                                                        });
-                                                    }
-                                                }
-                                            }else{
-                                                console.log('error in tweet');
-                                            }
-                                        }
-                                    });
+                                    console.log('done');
                                 }else{
                                     console.log('error in entring string in database');
                                 }
                             }
                         });
+                client.stream('statuses/filter', {track: string},  function(stream) {
+                    stream.on('data', function(tweet) {
+                        var retweeted_status = tweet.retweeted_status != false ? conn.escape(tweet.retweeted_status ? tweet.retweeted_status.id ? tweet.retweeted_status.id : 0 :0) : 0 ;
+                        var query = `INSERT INTO tweets (tw_id, text, id_user, timestamp, retweeted, string) VALUES (${conn.escape(tweet.id)}, ${conn.escape(tweet.text)}, ${conn.escape(tweet.user.id)}, ${conn.escape(tweet.timestamp_ms)}, ${retweeted_status}, ${conn.escape(string)})`;
+                        conn.query(query, function(err, result){
+                            if(err){
+                                console.log(err);
+                            }else{
+                                if(result.affectedRows == 1){
+                                    var query1 = `INSERT INTO tweet_user (twu_id, name, screen_name, url, followers_count, friends_count, status_count) VALUES (${conn.escape(tweet.user.id)}, ${conn.escape(tweet.user.name)}, ${conn.escape(tweet.user.screen_name)}, ${conn.escape(tweet.user.url)}, ${conn.escape(tweet.user.followers_count)}, ${conn.escape(tweet.user.friends_count)}, ${conn.escape(tweet.user.status_count)})`;
+                                    conn.query(query1, function(err, result){
+                                        if(err){
+                                            console.log(err);
+                                        }else{
+                                            if(result.affectedRows == 1){
+                                                console.log('done');
+                                            }else{
+                                                console.log('error in tweet_user');
+                                            }
+                                        }
+                                    });
+                                    if(tweet.retweeted_status){
+                                        if(tweet.retweeted_status.user){
+                                            var query2 = `INSERT INTO rtweeted_user (rtu_id, name, screen_name, url, followers_count, friends_count, status_count) VALUES (${conn.escape(tweet.retweeted_status.user.id)}, ${conn.escape(tweet.retweeted_status.user.name)}, ${conn.escape(tweet.retweeted_status.user.screen_name)}, ${conn.escape(tweet.retweeted_status.user.url)}, ${conn.escape(tweet.retweeted_status.user.followers_count)}, ${conn.escape(tweet.retweeted_status.user.friends_count)}, ${conn.escape(tweet.retweeted_status.user.status_count)})`;
+                                            conn.query(query2, function(err, result){
+                                                if(err){
+                                                    console.log(err);
+                                                }else{
+                                                    if(result.affectedRows == 1){
+                                                        console.log('done');
+                                                    }else{
+                                                        console.log('Error in retweet user');
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                }else{
+                                    console.log('error in tweet');
+                                }
+                            }
+                        });
+                                
                     });
                   
                     stream.on('error', function(error) {
