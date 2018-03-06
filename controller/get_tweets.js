@@ -135,3 +135,31 @@ exports.tweet_user = function(req, res){
         }
     })
 }
+
+exports.get_all_users = function(req, res){
+    var temp = req.params.table;
+    if(temp == 'auth'){
+        var table = 'user';
+    }
+    if(temp == 'tweets'){
+        var table = 'tweet_user';
+    }
+    if(temp == 'retweets'){
+        var table = 'rtweet_user';
+    }
+    var init = Number(req.params.init)*100;
+    var query = `SELECT * FROM ${table} WHERE id>${init}`;
+    conn.query(query, function(err, result0){
+        if(err){
+            console.log(err);
+        }else{
+            conn.query(`SELECT COUNT(*) AS count FROM ${table}`, function(err, result){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.render('show_all_users', {users: result0, count: result, id: init, table: temp});
+                }
+            })
+        }
+    })
+}
