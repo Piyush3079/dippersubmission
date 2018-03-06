@@ -95,3 +95,16 @@ exports.past_tweets = function(req, res){
         }
     });
 }
+
+exports.tweet_string = function(req, res){
+    var string = conn.escape(req.params.string);
+    var init = req.params.init;
+    var query = `SELECT * FROM tweets WHERE string=${string} LIMIT 100`;
+    conn.query(query, function(err, result){
+        if(err){
+            console.log(err);
+        }else{
+            res.render('stream_string', {stream: result});
+        }
+    })
+}
