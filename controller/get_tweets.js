@@ -187,6 +187,7 @@ exports.tweet_string = function(req, res){
         }
     })
 }
+
 exports.tweet_string_search = function(req, res){
     var string = conn.escape(req.params.string);
     var init = Number(req.params.init)*100;
@@ -267,6 +268,25 @@ exports.all_tweets = function(req, res){
                     console.log(err);
                 }else{
                     res.render('stream_string', {stream: result0, count: result, id: init, string: 'all', url: 'streams'});
+                }
+            })
+        }
+    })
+    
+}
+
+exports.all_tweets_search = function(req, res){
+    var init = Number(req.params.init)*100;
+    var query = `SELECT * FROM searched_tweets WHERE id>${init} LIMIT 100`;
+    conn.query(query, function(err, result0){
+        if(err){
+            console.log(err);
+        }else{
+            conn.query(`SELECT COUNT(*) AS count FROM searched_tweets`, function(err, result){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.render('search_string', {stream: result0, count: result, id: init, string: req.params.string, url: 'stream'});
                 }
             })
         }
